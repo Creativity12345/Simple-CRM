@@ -19,7 +19,7 @@ export class UserComponent {
   ngOnInit(): void {
     this.firestore
     .collection('users') //Sammlung aus firestore angeben
-    .valueChanges() //wenn sich etwas in der Datenbank ändert wird die Sammlung automatisch neu abonniert und aktualisiert
+    .valueChanges({idField: 'costumIdName'}) //wenn sich etwas in der Datenbank ändert wird die Sammlung automatisch neu abonniert und aktualisiert
     .subscribe((changes: any) => {
       console.log(changes);
       this.allUsers = changes;
