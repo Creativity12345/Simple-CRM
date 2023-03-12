@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { User } from 'src/models/user.class';
 
 @Component({
   selector: 'app-user-detail',
@@ -9,12 +11,20 @@ import { ActivatedRoute } from '@angular/router';
 export class UserDetailComponent {
 
   userId = '';
+  user:User = new User();
 
-  constructor(private route:ActivatedRoute){}
+  constructor(private route:ActivatedRoute, private firestore: AngularFirestore){}
 
   ngOnInit():void {
     this.route.paramMap.subscribe( paramMap => {
       this.userId = paramMap.get('id');
+      this.getUser();
     })
+  }
+
+  getUser(){
+    this.firestore.collection('users').doc(this.userId).valueChanges().subscribe((userT: any) => {
+      this.user = new User(userT);
+    });
   }
 }
