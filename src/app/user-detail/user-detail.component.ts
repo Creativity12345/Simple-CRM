@@ -27,4 +27,13 @@ export class UserDetailComponent {
       this.user = new User(userT);
     });
   }
+
+  editName(){
+    console.log('nameworks');
+    
+  }
+
+  editAdress(){
+    console.log('works');
+  }
 }
