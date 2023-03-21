@@ -9,7 +9,7 @@ import { User } from 'src/models/user.class';
   styleUrls: ['./dialog-edit-address.component.scss']
 })
 export class DialogEditAddressComponent {
-  user: User;
+  user: User = new User(); //Leerer User ohne Vornamen, Nachnamen usw...
   userId: string;
   loading = false;
 
@@ -17,9 +17,13 @@ export class DialogEditAddressComponent {
 
   saveAddress() {
     this.loading = true;
-    this.firestore.collection('users').doc(this.userId).update(this.user.toJSON()).then(()=>{
-      this.dialogRef.close();
-      this.loading = false;
-    });;
+    if (this.userId) {
+      this.firestore.collection('users').doc(this.userId).update(this.user.toJSON()).then(() => {
+        this.dialogRef.close();
+        this.loading = false;
+      });;
+    } else {
+      //Throw error
+    }
   }
 }

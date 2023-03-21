@@ -9,19 +9,22 @@ import { User } from 'src/models/user.class';
   styleUrls: ['./dialog-edit-user.component.scss']
 })
 export class DialogEditUserComponent {
-  user: User;
+  user: User = new User();
   userId: string;
   birthDate: Date;
   loading = false;
 
-  constructor(private firestore: AngularFirestore, public dialogRef: MatDialogRef<DialogEditUserComponent>){}
+  constructor(private firestore: AngularFirestore, public dialogRef: MatDialogRef<DialogEditUserComponent>) { }
 
-  saveUser(){
+  saveUser() {
     this.loading = true;
-    this.firestore.collection('users').doc(this.userId).update(this.user.toJSON()).then(()=>{
-      this.dialogRef.close();
-      this.loading = false;
-    });
+    if (this.userId) {
+      this.firestore.collection('users').doc(this.userId).update(this.user.toJSON()).then(() => {
+        this.dialogRef.close();
+        this.loading = false;
+      });
+    } else {
+      //Throw error
+    }
   }
-
 }
